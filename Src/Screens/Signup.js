@@ -9,19 +9,19 @@ import {
     View,
     Button,
     TouchableOpacity,
-    Image
+    Image,
+    ImageBackground
 } from 'react-native';
 import axios from "axios";
-
-
+import img from "../images/Sign.jpg"
 const Signup = ({ navigation }) => {
 
     const [email, setemail] = useState("")
     const [password, setpassword] = useState("")
     const [name, setname] = useState("")
     const [Number, setnumber] = useState("")
-    const [errMsg, setErrMsg] = useState('');
-    const [sccmsg, setsccmsg] = useState('');
+    const [errMsg, setErrMsg] = useState('o');
+    const [ErrColor, setErrcolor] = useState('white');
 
 
     const signup = () => {
@@ -31,45 +31,53 @@ const Signup = ({ navigation }) => {
 
 
         if (name === "") {
+            setErrcolor("red")
             setErrMsg("All Feild is Rquired");
             setTimeout(() => {
-                setErrMsg('');
+                setErrcolor("white")
+                setErrMsg('o');
             }, 3000)
 
         }
         else if (email === "") {
+            setErrcolor("red")
             setErrMsg("All Feild is Rquired");
             setTimeout(() => {
-                setErrMsg('');
+                setErrcolor("white")
+                setErrMsg('o');
             }, 3000)
 
         }
         else if (!regEx.test(email) && email !== "") {
             //   setemailErrMsg("Email is Not Valid");
+            setErrcolor("red")
             setErrMsg("email is not valid")
             setTimeout(() => {
-                setErrMsg('');
+                setErrcolor("white")
+                setErrMsg('o');
             }, 3000)
         }
         else if (password === "") {
+            setErrcolor("red")
             setErrMsg("All Feild is Rquired");
             setTimeout(() => {
-                setErrMsg('');
+                setErrcolor("white")
+                setErrMsg('o');
             }, 3000)
 
         }
         else if (Number === "") {
+            setErrcolor("red")
             setErrMsg("All Feild is Rquired");
             setTimeout(() => {
-                setErrMsg('');
+                setErrcolor("white")
+                setErrMsg('o');
             }, 3000)
 
         }
 
         else {
-            setTimeout(() => {
-                setErrMsg("")
-            }, 3000)
+
 
             let user = {
                 Name: name,
@@ -82,21 +90,25 @@ const Signup = ({ navigation }) => {
                     console.log(res.data.msg, 'response');
 
                     if (res.data.msg === "email is alredy in Use") {
-                        setErrMsg("email is found");
+                        setErrcolor("red")
+                        setErrMsg("Email is Already in Used");
+                        setTimeout(() => {
+                            setErrcolor("white")
+                            // setErrMsg('o');
+                        }, 3000)
                     }
                     else {
-                        setsccmsg("user auth sucess");
+                        setErrcolor("green")
+                        setErrMsg("user auth sucess");
+                        setname(""),
+                        setemail(""),
+                        setpassword(""),
+                        setnumber(""),
                         setTimeout(() => {
                             navigation.navigate('Login')
-                            setsccmsg('');
-                        }, 1000)
-                        setTimeout(() => {
-                            setname("");
-                            setpassword("");
-                            setnumber("");
-                            setemail("");
+                            setErrcolor("white")
+                        }, 1500)
 
-                        }, 2000)
                     }
                 })
                 .catch(function (error) {
@@ -104,15 +116,7 @@ const Signup = ({ navigation }) => {
                 });
         }
 
-        // else {
-        // let data = {
-        //         name,
-        //         email,
-        //         password
-        //     }
-        //     console.log(data)
-        //     
-        // }
+
 
 
 
@@ -121,37 +125,41 @@ const Signup = ({ navigation }) => {
         <SafeAreaView >
             <StatusBar />
             <ScrollView>
-                <View style={styles.background}>
+                <View style={{ backgroundColor: "black" }}>
 
+                    <ImageBackground source={img} style={{ height: 150, marginTop: -30 }}></ImageBackground>
+                    <View style={styles.background}>
 
-                    <Text style={styles.sectionTitle}>
-                        Signup
-                    </Text>
-                    <View>
+                        <Text style={styles.sectionTitle}>
+                            Signup
+                        </Text>
+                        <View>
 
-                        <View style={styles.input_VeiW}>
-                            <TextInput style={styles.input} value={name} onChangeText={text => (setname(text))} placeholder='Place Your Name' />
+                            <View style={styles.input_VeiW}>
+                                <TextInput style={styles.input} value={name} onChangeText={text => (setname(text))} placeholder='Place Your Name' />
+                            </View>
+                            <View>
+                                <TextInput style={styles.input} value={email} onChangeText={text => (setemail(text))} placeholder='Place Your Gmail' />
+                            </View>
+                            <View>
+                                <TextInput style={styles.input} value={password} onChangeText={text => (setpassword(text))} keyboardType="visible-password" placeholder='Place Your Password' />
+                            </View>
+                            <View>
+                                <TextInput style={styles.input} value={Number} onChangeText={text => (setnumber(text))} keyboardType="number-pad" placeholder='Eg :03440324499' />
+                            </View>
                         </View>
-                        <View>
-                            <TextInput style={styles.input} value={email} onChangeText={text => (setemail(text))} placeholder='Place Your Gmail' />
-                        </View>
-                        <View>
-                            <TextInput style={styles.input} value={password} onChangeText={text => (setpassword(text))} keyboardType="visible-password" placeholder='Place Your Password' />
-                        </View>
-                        <View>
-                            <TextInput style={styles.input} value={Number} onChangeText={text => (setnumber(text))} keyboardType="number-pad" placeholder='Eg :03440324499' />
-                        </View>
+
                     </View>
+                    <View style={styles.Button_Veiw}>
+                        <TouchableOpacity>
+                            <Text style={styles.button} onPress={signup}>Signup</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.Text} onPress={() => { navigation.navigate('Login') }} >You Have an Account ?
+                        </Text>
 
+                        {errMsg ? <Text style={{ color: ErrColor, paddingBottom: 20, textAlign: "center", fontSize: 25, fontWeight: "bold", marginTop: 20, }}>{errMsg}</Text> : null}
+                    </View>
                 </View>
-                <View style={styles.Button_Veiw}>
-                    <TouchableOpacity>
-                        <Text style={styles.button} onPress={signup}>Signup</Text>
-                    </TouchableOpacity>
-                </View>
-
-                {errMsg ? <Text style={{ color: "red", textAlign: "center", fontSize: 25, fontWeight: "bold", marginTop: 20, }}>{errMsg}</Text> : null}
-                {sccmsg ? <Text style={{ color: "green", textAlign: "center", fontSize: 25, fontWeight: "bold", marginTop: 20, }}>{sccmsg}</Text> : null}
 
             </ScrollView>
         </SafeAreaView>
@@ -159,16 +167,21 @@ const Signup = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-
+    Text: {
+        marginLeft: 180,
+        fontSize: 18,
+        color: "#3b5998",
+        marginTop: 20,
+    },
     sectionTitle: {
-        color: "#D70F64",
-        marginTop: 40,
+        color: "black",
+        marginTop: 20,
         textAlign: "center",
         fontSize: 50,
         fontWeight: '600',
     },
     login: {
-        color: "#D70F64",
+        color: "white",
         fontSize: 30,
         fontWeight: '400',
         marginLeft: 210,
@@ -177,15 +190,16 @@ const styles = StyleSheet.create({
     input: {
         height: 40,
         margin: 12,
+        backgroundColor: "white",
         borderWidth: 2,
-        borderColor: "#D70F64",
+        borderColor: "black",
         padding: 10,
         color: "black",
         borderRadius: 9,
-        color: "#D70F64"
+        color: "black"
     },
     input_VeiW: {
-        marginTop: 60,
+        marginTop: 30,
 
     },
     VeiW: {
@@ -195,17 +209,17 @@ const styles = StyleSheet.create({
 
     }, text: {
         marginLeft: 50,
-        fontSize: 18,
+        // fontSize: 18,
         marginTop: 20
 
 
     },
     button: {
-        backgroundColor: "#D70F64",
+        backgroundColor: "black",
         textAlign: "center",
-        color: "black",
+        color: "white",
         fontSize: 30,
-        marginTop: 50,
+        marginTop: 20,
         width: 200,
         alignContent: "center",
         borderRadius: 10,
@@ -213,19 +227,19 @@ const styles = StyleSheet.create({
 
     },
     Button_Veiw: {
+        backgroundColor: "white",
         justifyContent: "center",
         alignItems: "center",
 
     },
-    imgStyle: {
-        height: 200,
-        width: 200,
-    },
-    img: {
-        height: 200,
-        width: 200,
-        marginLeft: 70,
-    },
+    background: {
+        backgroundColor: "white",
+        borderTopLeftRadius: 50,
+        borderTopRightRadius: 50,
+        // paddingBottom:50
+
+
+    }
 
 
 });

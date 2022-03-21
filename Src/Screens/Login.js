@@ -9,10 +9,11 @@ import {
     View,
     Button,
     TouchableOpacity,
-    Image
+    Image,
+    ImageBackground
 } from 'react-native';
 import axios from "axios";
-
+import img from "../images/Sign.jpg"
 
 const Login = ({ navigation }) => {
 
@@ -102,26 +103,16 @@ const Login = ({ navigation }) => {
         }
 
 
-        // else {
-
-        //     setsccmsg("User Login Sucess");
-        //     setTimeout(() => {
-        //         setsccmsg('');
-        //         navigation.navigate('Home')
-        //     }, 1000)
-        //     let data = {
-        //         email,
-        //         password
-        //     }
-        //     console.log(data)
 
 
-        // }
+
     }
     return (
         <SafeAreaView >
             <StatusBar />
-            <ScrollView>
+            <View style={{backgroundColor:"black",height:1000}}>
+
+                <ImageBackground source={img} style={{ height: 100 }} />
                 <View style={styles.background}>
 
 
@@ -158,7 +149,8 @@ const Login = ({ navigation }) => {
 
 
                 </View>
-            </ScrollView>
+            </View>
+
         </SafeAreaView>
     );
 };
@@ -166,8 +158,8 @@ const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
 
     sectionTitle: {
-        color: "#D70F64",
-        marginTop: 40,
+        color: "black",
+        marginTop: 50,
         textAlign: "center",
         fontSize: 50,
         fontWeight: '600',
@@ -178,40 +170,47 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         marginLeft: 210,
 
+    }, background: {
+        backgroundColor: "white",
+        borderTopLeftRadius:50,
+        borderTopRightRadius:50,
+        marginTop:50
     },
     input: {
         height: 40,
         margin: 12,
         borderWidth: 2,
-        borderColor: "#D70F64",
+        backgroundColor: "white",
+        borderColor: "black",
         padding: 10,
         color: "black",
         borderRadius: 9,
-        color: "#D70F64"
     },
     input_VeiW: {
         marginTop: 60,
 
     },
     VeiW: {
-        marginTop: 30,
+        paddingTop: 30,
         // textAlign: "center",
+        backgroundColor:"white",
+        height:300
 
 
     }, text: {
         marginLeft: 180,
         fontSize: 18,
-        color: "#3b5998"
-
-
-
+        color: "#3b5998",
     },
+
+
+
     button: {
-        backgroundColor: "#D70F64",
+        backgroundColor: "black",
         textAlign: "center",
-        color: "black",
+        color: "white",
         fontSize: 30,
-        marginTop: 50,
+        // paddingTop: 50,
         width: 200,
         alignContent: "center",
         borderRadius: 10,
@@ -221,6 +220,8 @@ const styles = StyleSheet.create({
     Button_Veiw: {
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor:"white",
+        paddingTop:80
 
     },
     imgStyle: {

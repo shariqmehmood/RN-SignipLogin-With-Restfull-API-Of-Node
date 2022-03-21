@@ -9,39 +9,47 @@ import {
     View,
     Button,
     TouchableOpacity,
-    Image
+    Image,
+    ImageBackground
 } from 'react-native';
-
-const ForgetPassword = ({navigation}) => {
+import img from "../images/Sign.jpg"
+const ForgetPassword = ({ navigation }) => {
 
     const [email, setemail] = useState("")
-    const [sccmsg, setsccmsg] = useState('');
-    const [errMsg, setErrMsg] = useState('');
+    const [errcolor, seterrcolor] = useState('white');
+    const [errMsg, setErrMsg] = useState('o');
 
     const Submit = () => {
-        
+
         const regEx = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
-       
+
         if (email === "") {
+            seterrcolor("red")
             setErrMsg("Email is Required");
             setTimeout(() => {
-                setErrMsg('');
+                seterrcolor("white")
+                setErrMsg('o');
             }, 3000)
 
         }
         else if (!regEx.test(email) && email !== "") {
             //   setemailErrMsg("Email is Not Valid");
+            seterrcolor("red")
             setErrMsg("email is not valid")
             setTimeout(() => {
-                setErrMsg('');
+                setErrMsg('o');
+                seterrcolor("white")
+
             }, 3000)
         }
         else {
-
-            setsccmsg("User Login Sucess");
+            setemail("")
+            seterrcolor("green")
+            setErrMsg("wait");
             setTimeout(() => {
-                setsccmsg('');
-            }, 1000)
+            seterrcolor("white")
+                setErrMsg('o');
+            }, 2000)
             let data = {
                 email,
             }
@@ -53,7 +61,9 @@ const ForgetPassword = ({navigation}) => {
     return (
         <SafeAreaView >
             <StatusBar />
-            <ScrollView>
+            <View style={{ backgroundColor: "black" }}>
+
+                <ImageBackground source={img} style={{ height: 100 }} />
                 <View style={styles.background}>
 
 
@@ -62,29 +72,29 @@ const ForgetPassword = ({navigation}) => {
                     </Text>
                     <View>
 
-                        
+
                         <View>
-                            <TextInput style={styles.input} onChangeText={text => (setemail(text))} placeholder='Place Your Gmail' />
+                            <TextInput style={styles.input} value={email} onChangeText={text => (setemail(text))} placeholder='Place Your Gmail' />
                         </View>
-                       
+
+                    </View>
+
+                    <View style={styles.Button_Veiw}>
+                        <TouchableOpacity>
+                            <Text style={styles.button} onPress={Submit}>Submit</Text>
+                        </TouchableOpacity>
+
+                    </View>
+
+                    <View style={styles.VeiW}>
+                        {errMsg ? <Text style={{ color: errcolor, textAlign: "center", fontSize: 25, fontWeight: "bold", marginTop: 50, marginBottom: 200 }}>{errMsg}</Text> : null}
+
+
                     </View>
 
                 </View>
-                <View style={styles.Button_Veiw}>
-                    <TouchableOpacity>
-                        <Text style={styles.button} onPress={Submit}>Submit</Text>
-                    </TouchableOpacity>
-                </View>
+            </View>
 
-                <View style={styles.VeiW}>
-                  
-                    {errMsg ? <Text style={{ color: "red", textAlign: "center", fontSize: 25, fontWeight: "bold", marginTop: 20, }}>{errMsg}</Text> : null}
-                    {sccmsg ? <Text style={{ color: "green", textAlign: "center", fontSize: 25, fontWeight: "bold", marginTop: 20, }}>{sccmsg}</Text> : null}
-
-
-
-                </View>
-            </ScrollView>
         </SafeAreaView>
     );
 };
@@ -92,11 +102,12 @@ const ForgetPassword = ({navigation}) => {
 const styles = StyleSheet.create({
 
     sectionTitle: {
-        color: "#D70F64",
-        marginTop: 40,
+        color: "black",
+        marginTop: 50,
         textAlign: "center",
         fontSize: 50,
         fontWeight: '600',
+        marginBottom: 50,
     },
     login: {
         color: "#D70F64",
@@ -109,22 +120,18 @@ const styles = StyleSheet.create({
         height: 40,
         margin: 12,
         borderWidth: 2,
-        borderColor: "#D70F64",
+        borderColor: "black",
         padding: 10,
         color: "black",
         borderRadius: 9,
-        color: "#D70F64"
+        backgroundColor: "white"
+        // color: "#D70F64"
     },
     input_VeiW: {
         marginTop: 60,
 
     },
-    VeiW: {
-        marginTop: 30,
-        // textAlign: "center",
-
-
-    }, text: {
+    text: {
         marginLeft: 180,
         fontSize: 18,
         color: "#3b5998"
@@ -133,32 +140,32 @@ const styles = StyleSheet.create({
 
     },
     button: {
-        backgroundColor: "#D70F64",
+        backgroundColor: "black",
         textAlign: "center",
-        color: "black",
+        color: "white",
         fontSize: 30,
-        marginTop: 50,
+
         width: 200,
         alignContent: "center",
         borderRadius: 10,
+        // marginBottom:10
 
 
     },
     Button_Veiw: {
         justifyContent: "center",
         alignItems: "center",
-
-    },
-    imgStyle: {
-        height: 200,
-        width: 200,
-    },
-    img: {
-        height: 200,
-        width: 200,
-        marginLeft: 70,
+        backgroundColor: "white",
+        marginTop: 50
     },
 
+    background: {
+        backgroundColor: "white",
+        marginTop: 60,
+        // marginBottom:20,
+        borderTopLeftRadius: 50,
+        borderTopRightRadius: 50
+    }
 
 });
 
